@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Обзор
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
+{% endblock %}
+
+
+{% block nav-overview %}
+    <a href="{% url 'overview' %}" class="active">Обзор</a> <!-- выделенная вкладка в сайдбаре  -->
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>Обзор</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>Это основная страница, на которой должна быть обзорная информация по всем проектам / инспекциям.</h2>
+<br>
+<p>
+    - 2022-10-24: добавлена система авторизации.
+</p>
+<br>
+<br>
+<h6>Для перехода на другие страницы воспользуйтесь навигационным меню (доступно из любой точки сайта)</h6>
+<br>
+Сессия: {{ request.session }}<br>
+{% for item in request.session.items %}
+    {{ item }}<br>
+{% endfor %}
+<br>
+Пользователь: {{ user }}<br>
+Авторизирован? {{ user.is_authenticated }}
+{% endblock %}

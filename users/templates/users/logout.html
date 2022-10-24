@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Выход
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>Выход</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>Вы вышли из учетной записи</h2>
+<div class="border-top pt-3">
+    <small class="text-muted">
+        Хотите снова авторизироваться? <a class="ml-2" href="{% url 'login' %}">Вход</a>
+    </small>
+</div>
+{% endblock %}

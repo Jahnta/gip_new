@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Обзор
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
+{% endblock %}
+
+{% block stations-overview %}
+    <a href=""class="active">Станции</a> <!-- выделенная вкладка в сайдбаре  -->
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>Станции</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-top: 15px;">
+    <div>
+        <div style="">
+            <h3 style="margin-bottom: 15px;"></h3>
+            <div class="card" style="width: 20rem; display: inline-block; margin-right: 15px; margin-bottom: 15px">
+                <img src="" class="card-img-top" height="200">
+                <div class="card-body">
+                    <h6 class="card-title"></h6>
+                    <p class="card-text" style="height: 50px;">
+                        Тут должен быть текст<br>
+                    </p>
+                </div>
+                <div class="card-body text-end">
+                    <a href="" class="card-link">Перейти к станции</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

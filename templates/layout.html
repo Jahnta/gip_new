@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/fd66d59a34.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'layout.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+
+<div class="sidenav">
+    <div class="logo">
+    <img src="{% static 'logo1.jpg' %}" class="" alt="" height="48">
+    </div>
+    <div class="sidenav-items">
+        <title>Главное</title>
+        {% block nav-overview %}<a href="{% url 'overview' %}">Обзор</a>{% endblock %}
+        {% block nav-chart %}<a href="">График инспекций</a>{% endblock %}
+    </div>
+    <div class="sidenav-items">
+        <title>Меню</title>
+        {% block stations-overview %}
+        <a href="{% url 'stations_overview' %}">Станции</a> <!-- выделенная вкладка в сайдбаре  -->
+        {% endblock %}
+        <a href="">Установки</a>
+    </div>
+    <div class="sidenav-auth">
+        {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}">Войти</a>
+        {% else %}
+        <p>{{ user.username }}</p>
+        <a href="{% url 'logout' %}">Выйти</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="main">
+    <div class="topline">
+    {% block topline %}
+    {% endblock %}
+    </div>
+    <div class="content">
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+    </div>
+</div>
+
+</body>
+</html>

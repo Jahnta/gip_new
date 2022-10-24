@@ -1,0 +1,18 @@
+.topline h6 {
+    display: inline-block;
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.content {
+    padding: 15px;
+}
+
+.content h2 {
+    font-size: 20px;
+}
+
+p {
+    font-size: 16px;
+}

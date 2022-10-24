@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Профиль
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>Профиль</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="content-section">
+  <div class="media">
+    <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+    <div class="media-body">
+      <h2 class="account-heading">{{ user.username }}</h2>
+      <p class="text-secondary">{{ user.email }}</p>
+    </div>
+  </div>
+  <!-- Здесь будет форма -->
+</div>
+
+{% endblock %}

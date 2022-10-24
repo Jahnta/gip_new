@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Вход
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>Вход</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="OK" %}
+    {% bootstrap_button button_type="reset" content="Cancel" %}
+</form>
+
+
+<div class="border-top pt-3">
+    <small class="text-muted">
+        Не зарегистрированы? <a class="ml-2" href="{% url 'register' %}">Регистрация</a>
+    </small>
+</div>
+{% endblock %}
