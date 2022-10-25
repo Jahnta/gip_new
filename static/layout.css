@@ -89,7 +89,6 @@
 .topline {
     height: 60px;
     border-bottom: 1px solid lightgrey;
-    box-shadow: -2px 4px 2px -2px lightgrey;
     padding: 15px 0 0 15px;
 }
 

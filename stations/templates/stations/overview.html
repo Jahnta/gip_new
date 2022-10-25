@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block stations-overview %}
-    <a href=""class="active">Станции</a> <!-- выделенная вкладка в сайдбаре  -->
+    <a href="" class="active">Станции</a> <!-- выделенная вкладка в сайдбаре  -->
 {% endblock %}
 
 {% block topline %}
@@ -21,24 +21,27 @@
 
 {% block content %}
 
-<div class="container" style="margin-top: 15px;">
-    <div>
-        <div style="">
-            <h3 style="margin-bottom: 15px;"></h3>
-            <div class="card" style="width: 20rem; display: inline-block; margin-right: 15px; margin-bottom: 15px">
-                <img src="" class="card-img-top" height="200">
-                <div class="card-body">
-                    <h6 class="card-title"></h6>
-                    <p class="card-text" style="height: 50px;">
-                        Тут должен быть текст<br>
-                    </p>
-                </div>
-                <div class="card-body text-end">
-                    <a href="" class="card-link">Перейти к станции</a>
-                </div>
+<div>
+{% for company in companies %}
+    <div class="mt-2">
+        <h5 style="margin-bottom: 15px;">{{ company.name }}</h5>
+        {% for station in company.station_list %}
+        <div class="card" style="width: 20rem; display: inline-block; margin-right: 15px; margin-bottom: 15px">
+            <img src="{{ station.image.url }}" class="card-img-top" alt="" height="200">
+            <div class="card-body">
+                <h6 class="card-title">{{ station }}</h6>
+                <p class="card-text" style="font-size: 12px">
+                    {{ station.address }}
+                </p>
+            </div>
+            <div class="card-body text-end">
+                <a href="" class="card-link" style="font-size:12px;">Перейти к станции</a>
             </div>
         </div>
+        {% endfor %}
     </div>
+    <div class="border-bottom"></div>
+{% endfor %}
 </div>
 
 

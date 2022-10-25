@@ -1,5 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -20,14 +19,19 @@
     <div class="sidenav-items">
         <title>Главное</title>
         {% block nav-overview %}<a href="{% url 'overview' %}">Обзор</a>{% endblock %}
-        {% block nav-chart %}<a href="">График инспекций</a>{% endblock %}
+        {% block nav-chart %}<a href="">График инспекций (не активно)</a>{% endblock %}
     </div>
     <div class="sidenav-items">
-        <title>Меню</title>
+        <title>Объекты</title>
         {% block stations-overview %}
         <a href="{% url 'stations_overview' %}">Станции</a> <!-- выделенная вкладка в сайдбаре  -->
         {% endblock %}
-        <a href="">Установки</a>
+        <a href="">Установки (не активно)</a>
+    </div>
+    <div class="sidenav-items">
+        <title>Документация</title>
+        <a href="">Реестр договоров (не активно)</a> <!-- выделенная вкладка в сайдбаре  -->
+        <a href="">Реестр отчетной документации (не активно)</a>
     </div>
     <div class="sidenav-auth">
         {% if not user.is_authenticated %}
