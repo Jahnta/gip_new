@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Обзор
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'stations/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tab.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/tabcontent.css' %}">
+{% endblock %}
+
+{% block stations-overview %}
+    <a href="{% url 'stations_overview' %}" class="active">Станции</a> <!-- выделенная вкладка в сайдбаре  -->
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>{{ station.name }}</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+{% block controls %}
+{% if user.is_superuser %}
+<div class="controls">
+<h6>Действия</h6>
+<a href="{% url 'station_edit' station_id=station.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
+<a href="{% url 'station_delete' station_id=station.pk %}"><i class="fa-regular fa-trash-can"></i></a>
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'general')" id="defaultOpen">Общая информация</button>
+    <button class="tablinks" onclick="openTab(event, 'units')" id="">Оборудование</button>
+    <button class="tablinks" onclick="openTab(event, 'contacts')" id="">Контактная информация</button>
+</div>
+
+<div id="general" class="tabcontent"">
+    <h4>Общая информация</h4>
+    <a>Местонахождение: {{ station.address }}</a>
+</div>
+
+<div id="units" class="tabcontent">
+    <h4>Список установок</h4>
+</div>
+
+<div id="contacts" class="tabcontent">
+    <h4>Список контактов</h4>
+</div>
+
+<script></script>
+<script src="{% static 'js/openTab.js' %}"></script>
+
+
+{% endblock %}

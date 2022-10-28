@@ -1,0 +1,13 @@
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 1rem;
+}
+
+.tabcontent h4 {
+    padding: 0 0 1rem 0;
+}
+
+.tabcontent a {
+    font-size: 0.9rem;
+}

@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Обзор
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/card.css' %}">
+{% endblock %}
+
+{% block stations-overview %}
+    <a href="{% url 'stations_overview' %}" class="active">Станции</a> <!-- выделенная вкладка в сайдбаре  -->
+{% endblock %}
+
+{% block topline %}
+    <h6>Станции</h6> <!-- заголовок в верхнем блоке  -->
+{% endblock %}
+
+{% block controls %}
+{% if user.is_superuser %}
+<div class="controls">
+<h6>Действия</h6>
+<a href="{% url 'station_add' %}"><i class="fa-solid fa-plus"></i></a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% for company in companies %}
+<h5 style="margin: 1rem 0;">Cтанции {{ company.name }}</h5>
+{% for station in company.station_list %}
+<div class="card" onclick="location.href='{% url 'station_detail' station_id=station.id %}';">
+    {% if station.image_url %}
+    <img src="{{ station.image_url }}" class="card-img-top" alt="" height="150">
+    {% else %}
+    <img src="" class="card-img-top" alt="" height="150">
+    {% endif %}
+    <div class="card-body" style="height: 7rem">
+        <h6 class="card-title">{{ station.name }}</h6>
+        <p class="card-text">
+            Местонахождение: {{ station.address }}
+        </p>
+    </div>
+    <div class="card-body" style="padding-bottom: 2rem">
+        {% if user.is_superuser %}
+        <a href="{% url 'station_edit' station_id=station.id %}" class="card-link" style="display: inline-block; float: left;">Редактировать</a>
+        <a href="{% url 'station_delete' station_id=station.id %}" class="card-link" style="display: inline-block; float: right;">Удалить</a>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+<div class="border-bottom"></div>
+{% endfor %}
+{% endblock %}

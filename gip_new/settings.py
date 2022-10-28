@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%9&!-tfx_=sf_lrfv(=)*6nnpib4zyt)@ds42ip2w)bo@i_5c3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '172.25.252.16', '192.168.100.105']
 
 # Application definition
 
@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'main',
     'stations',
     'users',
+    'debug_toolbar',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

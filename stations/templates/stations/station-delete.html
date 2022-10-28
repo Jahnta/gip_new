@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Удаление
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/forms.css' %}">
+{% endblock %}
+
+{% block stations-overview %}
+    <a href="{% url 'stations_overview' %}" class="active">Станции</a> <!-- выделенная вкладка в сайдбаре  -->
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>Удаление</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" enctype='multipart/form-data'>
+    {% csrf_token %}
+    <h6>Вы действительно хотите удалить станцию?</h6>
+    <input type=button class="btn btn-submit" value="Назад" onClick="javascript:history.go(-1);">
+    <input type="submit" class="btn btn-danger" value="Удалить">
+</form>
+
+
+{% endblock %}

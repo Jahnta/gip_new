@@ -1,20 +1,99 @@
-from django.shortcuts import render
-from .models import Station
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render, get_object_or_404, redirect
+
+from .forms import StationForm
+from .models import Company, Station
+
 
 def stations_overview(request):
-    company_list = [x[0] for x in set(list(Station.objects.order_by('id').values_list('company')))]
-    companies = []
-    for company in sorted(company_list):
-        stations = []
-        station_list = Station.objects.filter(company=company)
+    stations = []
+    data = {'companies': []}
+    queryset = Station.objects.select_related('company').all()
+    for station in queryset:
+        stations.append(
+            {
+                'id' : station.id,
+                'name' : station.name,
+                'address' : station.address,
+                'company' : (station.company.name if station.company else 'Прочие'),
+                'image_url' : (station.image.url if station.image else ''),
+            }
+        )
+    companies = set(x['company'] for x in stations)
+    for company in sorted(companies):
         company_data = {
             'name' : company,
-            'station_list' : station_list
+            'station_list': [x for x in stations if x['company'] == company]
         }
-        companies.append(company_data)
+        data['companies'].append(company_data)
+    return render(request, 'stations/station-overview.html', data)
+
+
+def station_detail(request, station_id):
+    station = get_object_or_404(Station, pk=station_id)
     data = {
-        'companies' : companies,
+        'station': station,
     }
-    return render(request, 'stations/overview.html', data)
+    return render(request, 'stations/station-detail.html', data)
+
+
+@staff_member_required
+def station_edit(request, station_id):
+    error = ''
+    station = get_object_or_404(Station, pk=station_id)
+    if request.method == 'POST':
+        form = StationForm(request.POST, request.FILES, instance=station)
+        if form.is_valid():
+            try:
+                image = request.FILES['image']
+            except:
+                pass
+            station = form.save()
+            return redirect('station_detail', station_id=station_id)
+        else:
+            error = 'Форма заполнена неправильно'
+    else:
+        form = StationForm(instance=station)
+    data = {
+        'form': form,
+        'error': error,
+    }
+    return render(request, 'stations/station-edit.html', data)
+
+
+@staff_member_required
+def station_add(request):
+    error = ''
+    if request.method == 'POST':
+        form = StationForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                station = Station(image=request.FILES['image'])
+            except:
+                pass
+            station = form.save()
+            return redirect('station_detail', station_id=station.id)
+        else:
+            error = 'Форма заполнена неправильно'
+    else:
+        form = StationForm()
+    data = {
+        'form': form,
+        'error': error,
+    }
+    return render(request, 'stations/station-add.html', data)
+
+
+@staff_member_required
+def station_delete(request, station_id):
+    station = get_object_or_404(Station, pk=station_id)
+    form = StationForm()
+    if request.method == 'POST':
+        station.delete()
+        return redirect('stations_overview')
+    data = {
+        'form': form,
+    }
+    return render(request, 'stations/station-delete.html', data)
 
 # Create your views here.
