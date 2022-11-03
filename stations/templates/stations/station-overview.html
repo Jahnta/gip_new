@@ -7,8 +7,6 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'stations/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
     <link rel="stylesheet" href="{% static 'stations/css/card.css' %}">
 {% endblock %}
 
@@ -33,23 +31,34 @@
 {% for company in companies %}
 <h5 style="margin: 1rem 0;">Cтанции {{ company.name }}</h5>
 {% for station in company.station_list %}
-<div class="card" onclick="location.href='{% url 'station_detail' station_id=station.id %}';">
+<div class="card">
     {% if station.image_url %}
-    <img src="{{ station.image_url }}" class="card-img-top" alt="" height="150">
+    <img src="{{ station.image_url }}" class="card-img-top" alt="" height="150"
+    onclick="location.href='{% url 'station_detail' station_id=station.id %}'">
     {% else %}
-    <img src="" class="card-img-top" alt="" height="150">
+    <img src="" class="card-img-top" alt="" height="150"
+    onclick="location.href='{% url 'station_detail' station_id=station.id %}'">
     {% endif %}
-    <div class="card-body" style="height: 7rem">
-        <h6 class="card-title">{{ station.name }}</h6>
-        <p class="card-text">
+    <div class="card-body" style="height: 10rem">
+        <div style="display: inline-block; width: 80%">
+            <h6 class="card-title"
+    onclick="location.href='{% url 'station_detail' station_id=station.id %}'">{{ station.name }}</h6>
+            <p class="card-text">
             Местонахождение: {{ station.address }}
-        </p>
-    </div>
-    <div class="card-body" style="padding-bottom: 2rem">
-        {% if user.is_superuser %}
-        <a href="{% url 'station_edit' station_id=station.id %}" class="card-link" style="display: inline-block; float: left;">Редактировать</a>
-        <a href="{% url 'station_delete' station_id=station.id %}" class="card-link" style="display: inline-block; float: right;">Удалить</a>
-        {% endif %}
+            </p>
+        </div>
+        <div style="display: inline-block; margin-right: 1.2rem; width: 5%; float: right; vertical-align: top;">
+            <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+            </button>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'station_detail' station_id=station.id %}">Перейти</a></li>
+            {% if user.is_superuser %}
+                <li><a class="dropdown-item" href="{% url 'station_edit' station_id=station.id %}">Редактировать</a></li>
+                <li><a class="dropdown-item" href="{% url 'station_delete' station_id=station.id %}">Удалить</a></li>
+            {% endif %}
+            </ul>
+        </div>
     </div>
 </div>
 {% endfor %}

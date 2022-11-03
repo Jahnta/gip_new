@@ -1,0 +1,113 @@
+.content {
+    padding: 0;
+}
+
+.chart-container {
+    overflow: hidden;
+}
+
+.chart {
+    display: grid;
+    overflow: hidden;
+}
+
+.chart-row {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+}
+
+.chart-period {
+    background-color:  #eee;
+    border-bottom: 0.1rem solid lightgrey;
+    grid-template-columns: 6rem 6rem repeat(12, 1fr);
+}
+.chart-period span{
+    border-top: 0.1rem solid lightgrey;
+    border-right: 0.1rem solid lightgrey;
+}
+
+.chart-period > span {
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5rem 0;
+ }
+
+.chart-lines {
+    position: absolute;
+    height: 5rem;
+    width: calc(100% - 21rem);
+    background-color: transparent;
+    grid-template-columns: 6rem repeat(12, 1fr);
+    z-index: -1;
+}
+
+.chart-lines > span {
+    display: block;
+    border-right: 0.1rem solid lightgrey;
+}
+
+.chart-row-station {
+    border-bottom: 0.1rem solid lightgrey;
+    border-right: 0.1rem solid lightgrey;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.2rem 0;
+}
+
+.chart-row-units {
+    display: grid;
+    grid-template-columns: 6rem repeat(12, 1fr);
+    border-bottom: 0.1rem solid lightgrey;
+    line-height: 1.3rem;
+}
+
+.chart-row-unit {
+    font-weight: bold;
+    text-align: center;
+    padding: 0.2rem 0;
+    border-right: 0.1rem solid lightgrey;
+}
+
+.chart-row-unit .unit-type {
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+
+.chart-row-event {
+    margin: 0.1rem 0.2rem;
+    line-height: 1.1rem;
+    overflow: hidden;
+    font-size: 0.9rem;
+    text-align: left;
+    min-width: 8.5rem;
+    color: #fff;
+    border-radius: 0.3rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.chart-row-event:hover {
+    box-shadow: 0 0 0.5rem 0.2rem #888888;
+}
+
+.chart-row-event .info {
+    display: inline-block;
+    min-width: 6rem;
+    padding: 0.2rem 0.3rem;
+    cursor: pointer;
+}
+
+.chart-row-event .name {
+    font-weight: 500;
+}
+
+.chart-row-event .dates {
+    font-size: 0.8rem;
+}
+
+.chart-row-event .options {
+    padding: 0.85rem 0.3rem 0.85rem 0;
+    display: inline-block;
+    float: right;
+    border: 0rem solid white;
+    vertical-align: bottom;
+}

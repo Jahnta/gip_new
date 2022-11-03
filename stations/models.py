@@ -34,7 +34,7 @@ class Station(models.Model):
 
 class UnitType(models.Model):
     machine_type = models.CharField('Тип машины', max_length=50, default='Газотурбинная установка')
-    name = models.CharField('Имя установки', max_length=10, default='-')
+    name = models.CharField('Имя установки', max_length=20, default='-')
 
     def __str__(self):
         return self.machine_type + ' ' + self.name

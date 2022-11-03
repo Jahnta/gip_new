@@ -6,7 +6,6 @@
     {% bootstrap_javascript %}
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'css/topline.css' %}">
     <script src="https://kit.fontawesome.com/fd66d59a34.js" crossorigin="anonymous"></script>
     <title>{% block title %}{% endblock %}</title>
     {% block head %}{% endblock %}
@@ -21,17 +20,19 @@
     <div class="sidenav-items">
         <title>Главное</title>
         {% block nav-overview %}<a href="{% url 'overview' %}">Обзор</a>{% endblock %}
-        {% block nav-chart %}<a href="">График инспекций</a>{% endblock %}
+        {% block nav-chart %}<a href="{% url 'event_chart' %}">График инспекций</a>{% endblock %}
     </div>
     <div class="sidenav-items">
         <title>Объекты</title>
         {% block stations-overview %}
         <a href="{% url 'stations_overview' %}">Станции</a> <!-- выделенная вкладка в сайдбаре  -->
         {% endblock %}
-        <a href="">Установки (не активно)</a>
+        {% block units-overview %}
+        <a href="{% url 'units_overview' %}">Оборудование</a> <!-- выделенная вкладка в сайдбаре  -->
+        {% endblock %}
     </div>
     <div class="sidenav-items">
-        <title>Реестры</title>
+        <title>Реестры (пример)</title>
         <a href="">Договоры</a> <!-- выделенная вкладка в сайдбаре  -->
         <a href="">Отчеты</a>
     </div>
@@ -50,12 +51,8 @@
     {% block topline %}
     {% endblock %}
     </div>
-
     {% block controls %}
     {% endblock %}
-
-
-
     <div class="content">
     {% block content %}
     {% if messages %}
@@ -67,7 +64,6 @@
     {% endif %}
     {% endblock %}
     </div>
-
 </div>
 
 </body>

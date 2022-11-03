@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Обзор
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'stations/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tab.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/tabcontent.css' %}">
+{% endblock %}
+
+{% block nav-chart %}
+    <a href="{% url 'event_chart' %}" class="active">График инспекций</a> <!-- выделенная вкладка в сайдбаре  -->
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>
+        <a href="{% url 'station_detail' event.unit.station.id %}">{{event.unit.station.short_name}}</a>
+        / <a href="{% url 'unit_detail' event.unit.station.id event.unit.id %}">{{ event.unit.short_name }}</a> / {{ event }}</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+{% block controls %}
+{% if user.is_superuser %}
+<div class="controls">
+<h6>Действия</h6>
+<a href="{% url 'event_edit' event.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
+<a href="{% url 'event_delete' event.id %}"><i class="fa-regular fa-trash-can"></i></a>
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'general')" id="defaultOpen">Общая информация</button>
+    <button class="tablinks" onclick="openTab(event, 'something')" id="">Что-то еще</button>
+</div>
+
+<div id="general" class="tabcontent"">
+    <h4>Общая информация</h4>
+    Начало {{ event.start }}<br>
+    Окончание {{ event.end }}<br>
+    Длительность {{ event.duration }}<br>
+</div>
+
+<div id="something" class="tabcontent">
+    <h4>События</h4>
+</div>
+
+<script></script>
+<script src="{% static 'js/openTab.js' %}"></script>
+
+{% endblock %}

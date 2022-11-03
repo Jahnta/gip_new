@@ -18,10 +18,14 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from stations import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('stations/', include('stations.urls')),
+    path('events/', include('events.urls')),
+    path('stations/', include('stations.stations_urls')),
+    path('units/', include('stations.units_urls')),
     path('', include('users.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

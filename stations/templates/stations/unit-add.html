@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Добавление
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/forms.css' %}">
+{% endblock %}
+
+{% block units-overview %}
+    <a href="{% url 'units_overview' %}" class="active">Оборудование</a> <!-- выделенная вкладка в сайдбаре  -->
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>Добавить оборудование</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" enctype='multipart/form-data'>
+    {% csrf_token %}
+    {% bootstrap_form form layout='horizontal' %}
+    {% bootstrap_button button_type="submit" content="OK" %}
+    {% bootstrap_button button_type="reset" content="Cancel" %}
+</form>
+
+
+{% endblock %}

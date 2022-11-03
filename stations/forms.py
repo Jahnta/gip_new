@@ -1,16 +1,17 @@
 from django import forms
 
-from .models import Station
+from .models import Station, Unit
+
 
 class StationForm(forms.ModelForm):
 
     class Meta:
         model = Station
         fields = [
+            'company',
             'id',
             'name',
             'short_name',
-            'company',
             'address',
             'image',
         ]
@@ -20,4 +21,20 @@ class StationForm(forms.ModelForm):
             'short_name': 'Короткое наименование станции, например "ТЭЦ-9"',
             'company': 'Наименование компании, например "ПАО "Мосэнерго""',
             'address': 'Адрес нахождения',
+        }
+
+
+class UnitForm(forms.ModelForm):
+    class Meta:
+        model = Unit
+        fields = [
+            'station',
+            'unit_type',
+            'station_number'
+        ]
+
+        help_texts = {
+            'station': 'Наименование станции, например "ТЭЦ-9"',
+            'unit_type': 'Тип установки',
+            'station_number': 'Станционный номер'
         }

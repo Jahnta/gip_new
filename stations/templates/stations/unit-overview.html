@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Обзор
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/overview.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tab.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/tabcontent.css' %}">
+{% endblock %}
+
+{% block units-overview %}
+    <a href="{% url 'units_overview' %}" class="active">Оборудование</a> <!-- выделенная вкладка в сайдбаре  -->
+{% endblock %}
+
+{% block topline %}
+    <h6>Оборудование</h6> <!-- заголовок в верхнем блоке  -->
+{% endblock %}
+
+{% block controls %}
+{% if user.is_superuser %}
+<div class="controls">
+<h6>Действия</h6>
+<a href="{% url 'unit_add' station_id=0 %}"><i class="fa-solid fa-plus"></i></a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="tab">
+{% for unit_type in unit_types %}
+<button class="tablinks" onclick="openTab(event, '{{ unit_type.unit_type.name }}')" id="defaultOpen">{{ unit_type.unit_type.name }}</button>
+{% endfor %}
+</div>
+
+
+{% for unit_type in unit_types %}
+<div id="{{ unit_type.unit_type.name }}" class="tabcontent">
+<h4>Всего установок: {{ unit_type.counter }}</h4>
+{% for station in unit_type.stations %}
+    <h4 onclick="location.href='{% url 'station_detail' station_id=station.station.id %}'" style="cursor: pointer">{{ station.station }}</h4>
+    {% for unit in station.units %}
+
+<div class="card">
+    <div class="card-body">
+        <div style="display: inline-block; width: 80%; cursor: pointer;"
+        onclick="location.href='{% url 'unit_detail' station_id=unit.station.id unit_id=unit.id %}'">
+            <p class="card-text">{{ unit.name }}</p>
+        </div>
+        <div style="display: inline-block; margin-right: 1.2rem; width: 5%; float: right; vertical-align: top;">
+            <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+            </button>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'unit_detail' station_id=unit.station.id unit_id=unit.id %}">Перейти</a></li>
+            {% if user.is_superuser %}
+                <li><a class="dropdown-item" href="{% url 'unit_edit' station_id=unit.station.id unit_id=unit.id%}">Редактировать</a></li>
+                <li><a class="dropdown-item" href="{% url 'unit_delete' station_id=unit.station.id unit_id=unit.id%}">Удалить</a></li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+    {% endfor %}
+{% endfor %}
+
+</div>
+{% endfor %}
+
+<script></script>
+<script src="{% static 'js/openTab.js' %}"></script>
+
+{% endblock %}

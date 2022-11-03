@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Обзор
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'stations/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tab.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/tabcontent.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/card.css' %}">
+{% endblock %}
+
+{% block units-overview %}
+    <a href="{% url 'units_overview' %}" class="active">Оборудование</a> <!-- выделенная вкладка в сайдбаре  -->
+{% endblock %}
+
+{% block topline %}
+<div>
+    <h6>
+        <a href="{% url 'station_detail' unit.station.id %}">{{unit.station.short_name}}</a>
+        / {{ unit.short_name }}</h6> <!-- заголовок в верхнем блоке  -->
+</div>
+{% endblock %}
+
+{% block controls %}
+{% if user.is_superuser %}
+<div class="controls">
+<h6>Действия</h6>
+<a href="{% url 'unit_edit' unit_id=unit.pk station_id=unit.station.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
+<a href="{% url 'unit_delete' unit_id=unit.pk station_id=unit.station.pk %}"><i class="fa-regular fa-trash-can"></i></a>
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'general')" id="defaultOpen">Общая информация</button>
+    <button class="tablinks" onclick="openTab(event, 'events')" id="">События</button>
+</div>
+
+<div id="general" class="tabcontent"">
+    <h4>Общая информация</h4>
+    {{ unit.name }}
+</div>
+
+<div id="events" class="tabcontent">
+    <h4>События</h4>
+
+    {% for event in events %}
+
+    <div class="card">
+    <div class="card-body">
+        <div style="display: inline-block; width: 80%; cursor: pointer;"
+        onclick="location.href='{% url 'event_detail' event.id %}'">
+            <p class="card-text">{{ event }}</p>
+        </div>
+        <div style="display: inline-block; margin-right: 1.2rem; width: 5%; float: right; vertical-align: top;">
+            <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+            </button>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'event_detail' event.id %}">Перейти</a></li>
+            {% if user.is_superuser %}
+                <li><a class="dropdown-item" href="{% url 'event_edit' event.id %}">Редактировать</a></li>
+                <li><a class="dropdown-item" href="{% url 'event_delete' event.id %}">Удалить</a></li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+    </div>
+
+
+    {% endfor %}
+    {% if user.is_superuser %}
+    <div class="controls" style="padding: 0">
+    <a href="{% url 'event_add' %}"><i class="fa-solid fa-plus"></i></a>
+    </div>
+    {% endif %}
+</div>
+
+<script></script>
+<script src="{% static 'js/openTab.js' %}"></script>
+
+{% endblock %}

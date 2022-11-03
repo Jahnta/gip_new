@@ -1,0 +1,161 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Обзор
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'events/css/chart-container.css' %}">
+    <link rel="stylesheet" href="{% static 'events/css/chart-tab.css' %}">
+{% endblock %}
+
+
+{% block nav-chart %}
+    <a href="{% url 'event_chart' %}" class="active">График инспекций</a>
+{% endblock %}
+
+{% block topline %}
+    <div style="display: inline-block; float: left">
+        <h6>График инспекций</h6> <!-- заголовок в верхнем блоке  -->
+    </div>
+
+{% endblock %}
+
+{% block controls %}
+{% if user.is_superuser %}
+<div class="controls">
+<h6>Действия</h6>
+<a href="{% url 'event_add' %}"><i class="fa-solid fa-plus"></i></a>
+</div>
+
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="tab">
+        {% for year in years %}
+        <button class="tablinks" onclick="openTab(event, '{{ year.year }}')"
+                {% if year.year == 2022 %}
+                id="defaultOpen"
+                {%endif %}
+        >
+            {{ year.year }}
+        </button>
+        {% endfor %}
+    </div>
+
+
+
+{% for year in years %}
+
+<div id="{{ year.year }}" class="tabcontent">
+    <div class="chart-row chart-period" style="
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 2">
+        <span>Объект</span>
+        <span>Установка</span>
+        <span>Январь</span>
+        <span>Февраль</span>
+        <span>Март</span>
+        <span>Апрель</span>
+        <span>Май</span>
+        <span>Июнь</span>
+        <span>Июль</span>
+        <span>Август</span>
+        <span>Сентябрь</span>
+        <span>Октябрь</span>
+        <span>Ноябрь</span>
+        <span>Декабрь</span>
+</div>
+
+
+<div class="chart-container">
+    <div class="chart">
+        {% for station in year.stations %}
+        <div class="chart-row">
+            <div class="chart-row-station">
+                {{ station.station.short_name }}
+            </div>
+            <div>
+                {% for unit in station.units %}
+                <div class="chart-row-units">
+                    <div class="chart-row-unit">
+                        {{ unit.unit.short_name }}<br>
+                        <span class="unit-type">
+                            {{ unit.unit.unit_type.name }}
+                        </span>
+                    </div>
+                    <div class="chart-row chart-lines">
+                        <span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    {% for event in unit.events %}
+                    <div class="chart-row-event"
+                         style="{% if event.start.year == year.year %}
+                                grid-column-start: calc({{event.start.month}} + 1);
+                                {% else %}
+                                grid-column-start: calc({{ 1 }} + 1);
+                                {% endif %}
+
+                                {% if event.end.year == year.year %}
+                                grid-column-end: calc({{event.end.month}} + 2);
+                                {% else %}
+                                grid-column-end: calc({{ 12 }} + 2);
+                                {% endif %}
+
+                                {% if event.duration <= 20 %}
+                                background-color: #268e00;
+                                {% elif event.duration <= 40 %}
+                                background-color: #a6a600;
+                                {% else %}
+                                background-color: #1142AA;
+                                {% endif %}">
+                        <div class="info"
+                             onclick="location.href='{% url 'event_detail' event.id %}'">
+                            <span class="name">{{ event.event_type }} {{unit.unit.short_name}}</span>
+                            <br>
+                            <span class="dates">с {{ event.start|date:'d.m' }} по {{ event.end|date:'d.m' }}</span>
+                        </div>
+                        <div class="options">
+                            <button type="button"
+                                    class="btn-sm"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    style="border: none; background-color: inherit; color: inherit">
+                                <i class="fa-solid fa-bars"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                       href="{% url 'event_detail' event.id %}">Перейти</a></li>
+                                {% if user.is_superuser %}
+                                <li><a class="dropdown-item"
+                                       href="{% url 'event_edit' event.id %}">Редактировать</a></li>
+                                <li><a class="dropdown-item"
+                                       href="{% url 'event_delete' event.id %}">Удалить</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <br>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+
+{% endfor %}
+
+<script></script>
+<script src="{% static 'js/openTab.js' %}"></script>
+
+{% endblock %}
