@@ -38,18 +38,18 @@
 
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'general')" id="defaultOpen">Общая информация</button>
-    <button class="tablinks" onclick="openTab(event, 'something')" id="">Что-то еще</button>
+    <button class="tablinks" onclick="openTab(event, 'something')" id="">Исполнительная документация</button>
 </div>
 
 <div id="general" class="tabcontent"">
     <h4>Общая информация</h4>
-    Начало {{ event.start }}<br>
-    Окончание {{ event.end }}<br>
-    Длительность {{ event.duration }}<br>
+    Начало {{ event.start|date:'d.m.Y' }}<br>
+    Окончание {{ event.end|date:'d.m.Y' }}<br>
+    Длительность: {{ event.duration }} календарных дней<br>
 </div>
 
 <div id="something" class="tabcontent">
-    <h4>События</h4>
+    <h4>Исполнительная документация</h4>
 </div>
 
 <script></script>

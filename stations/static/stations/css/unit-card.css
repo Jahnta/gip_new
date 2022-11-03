@@ -1,0 +1,42 @@
+.content {
+    padding-top: 0;
+}
+
+.card {
+    display: inline-block;
+    margin: 0 0.5rem 1rem 0rem;
+    transition: box-shadow 0.3s ease;
+    vertical-align: top;
+    min-width: 27rem;
+}
+
+.card:hover {
+    box-shadow: 0rem 0rem 1rem #888888;
+}
+
+.card-img-top {
+    cursor: pointer;
+}
+
+.card-title {
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.card-body {
+    line-height: 2rem;
+}
+
+.card-body .info {
+    display: inline-block;
+    font-weight: 500;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.card-body .options {
+    display: inline-block;
+    font-size: 0.8rem;
+    vertical-align: middle;
+    float: right;
+}

@@ -8,7 +8,7 @@
 {% block head %}
     <link rel="stylesheet" href="{% static 'stations/css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/tab.css' %}">
-    <link rel="stylesheet" href="{% static 'stations/css/card.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/css/unit-card.css' %}">
     <link rel="stylesheet" href="{% static 'stations/css/tabcontent.css' %}">
 {% endblock %}
 
@@ -53,24 +53,24 @@
     {% for unit in units %}
 
     <div class="card">
-    <div class="card-body">
-        <div style="display: inline-block; width: 80%; cursor: pointer;"
-        onclick="location.href='{% url 'unit_detail' station_id=unit.station.id unit_id=unit.id %}'">
-            <p class="card-text">{{ unit.name }}</p>
+        <div class="card-body">
+            <div class="info"
+                 onclick="location.href='{% url 'unit_detail' station_id=unit.station.id unit_id=unit.id %}'">
+                <a>{{ unit.name }}</a>
+            </div>
+            <div class="options">
+                <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'unit_detail' station_id=unit.station.id unit_id=unit.id %}">Перейти</a></li>
+                {% if user.is_superuser %}
+                    <li><a class="dropdown-item" href="{% url 'unit_edit' station_id=unit.station.id unit_id=unit.id%}">Редактировать</a></li>
+                    <li><a class="dropdown-item" href="{% url 'unit_delete' station_id=unit.station.id unit_id=unit.id%}">Удалить</a></li>
+                {% endif %}
+                </ul>
+            </div>
         </div>
-        <div style="display: inline-block; margin-right: 1.2rem; width: 5%; float: right; vertical-align: top;">
-            <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-bars"></i>
-            </button>
-            <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'unit_detail' station_id=unit.station.id unit_id=unit.id %}">Перейти</a></li>
-            {% if user.is_superuser %}
-                <li><a class="dropdown-item" href="{% url 'unit_edit' station_id=unit.station.id unit_id=unit.id%}">Редактировать</a></li>
-                <li><a class="dropdown-item" href="{% url 'unit_delete' station_id=unit.station.id unit_id=unit.id%}">Удалить</a></li>
-            {% endif %}
-            </ul>
-        </div>
-    </div>
     </div>
 
     {% endfor %}
@@ -88,35 +88,45 @@
 
 <div id="events" class="tabcontent"">
     <h4>События</h4>
+    {% if events %}
     {% for unit in units %}
-    <h6>{{ unit }}</h6>
+    <h5 style="margin-bottom: 1rem;">{{ unit }}</h5>
+
+
     {% for event in events %}
     {% if event.unit == unit %}
+
     <div class="card">
-    <div class="card-body">
-        <div style="display: inline-block; width: 80%; cursor: pointer;"
-        onclick="location.href='{% url 'event_detail' event.id %}'">
-            <p class="card-text">{{ event }}</p>
-        </div>
-        <div style="display: inline-block; margin-right: 1.2rem; width: 5%; float: right; vertical-align: top;">
-            <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-bars"></i>
-            </button>
-            <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'event_detail' event.id %}">Перейти</a></li>
-            {% if user.is_superuser %}
-                <li><a class="dropdown-item" href="{% url 'event_edit' event.id %}">Редактировать</a></li>
-                <li><a class="dropdown-item" href="{% url 'event_delete' event.id %}">Удалить</a></li>
-            {% endif %}
-            </ul>
+        <div class="card-body">
+            <div class="info"
+                 onclick="location.href='{% url 'event_detail' event.id %}'">
+                <a>{{ event.event_type.name }}</a><br>
+                <a style="font-weight: 400">C {{ event.start|date:'d.m.y' }} по {{ event.end|date:'d.m.Y' }}</a>
+            </div>
+            <div class="options">
+                <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'event_detail' event.id %}">Перейти</a></li>
+                {% if user.is_superuser %}
+                    <li><a class="dropdown-item" href="{% url 'event_edit' event.id %}">Редактировать</a></li>
+                    <li><a class="dropdown-item" href="{% url 'event_delete' event.id %}">Удалить</a></li>
+                {% endif %}
+                </ul>
+            </div>
         </div>
     </div>
-    </div>
+
     {% endif %}
 
 
+
     {% endfor %}
     {% endfor %}
+    {% else %}
+        <h6>Событий нет</h6>
+    {% endif %}
     {% if user.is_superuser %}
     <div class="controls" style="padding: 0">
     <a href="{% url 'event_add' %}"><i class="fa-solid fa-plus"></i></a>
